@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "0fdb210f-94f8-40c3-b35b-4fb0a85e0796",
+		"name": "API Veículos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "9731411"
+	},
+	"item": [
+		{
+			"name": "Usuários",
+			"item": [
+				{
+					"name": "Cadastrar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Admin\",\n  \"login\": \"admin\",\n  \"senha\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:5001/api/usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"admin\",\n  \"senha\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:5001/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Usuário por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "https://localhost:5001/api/usuarios/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Veículos",
+			"item": [
+				{
+					"name": "Listar Veículos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "https://localhost:5001/api/veiculos"
+					},
+					"response": []
+				},
+				{
+					"name": "Obter Veículo por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "https://localhost:5001/api/veiculos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Veículo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"descricao\": \"Carro sedan completo\",\n  \"marca\": 1,\n  \"modelo\": \"Uno\",\n  \"opcionais\": \"Ar condicionado, direção hidráulica\",\n  \"valor\": 45000.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:5001/api/veiculos"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Veículo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"descricao\": \"Carro sedan completo atualizado\",\n  \"marca\": 1,\n  \"modelo\": \"Uno Mile\",\n  \"opcionais\": \"Ar condicionado, direção elétrica, vidros elétricos\",\n  \"valor\": 48000.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://localhost:5001/api/veiculos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Veículo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": "https://localhost:5001/api/veiculos/1"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

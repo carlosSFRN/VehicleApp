@@ -48,6 +48,10 @@ A API estará disponível em:
 - HTTP: `http://localhost:5000`
 - Swagger: `https://localhost:5001/swagger`
 
+### Testar com Postman
+
+Na pasta `postman/` há uma collection pronta para importar no Postman. A collection já está configurada para adicionar automaticamente o token JWT nas requisições após o login.
+
 ### Credenciais padrão
 
 Um usuário administrador é criado automaticamente:
