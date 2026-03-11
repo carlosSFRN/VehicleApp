@@ -1,6 +1,74 @@
-@Vehicle.API_HostAddress = http://localhost:5185
+### Cadastrar Usuário
+POST https://localhost:5001/api/usuarios
+Content-Type: application/json
 
-GET {{Vehicle.API_HostAddress}}/weatherforecast/
-Accept: application/json
+{
+  "nome": "Admin",
+  "login": "admin",
+  "senha": "123456"
+}
 
 ###
+
+### Login
+POST https://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "senha": "123456"
+}
+
+###
+
+### Obter Usuário por ID
+GET https://localhost:5001/api/usuarios/1
+
+###
+
+### Cadastrar Veículo (requer token)
+POST https://localhost:5001/api/veiculos
+Content-Type: application/json
+Authorization: Bearer {seu_token_aqui}
+
+{
+  "descricao": "Carro sedan completo",
+  "marca": 1,
+  "modelo": "Uno",
+  "opcionais": "Ar condicionado, direção hidráulica",
+  "valor": 45000.00
+}
+
+###
+
+### Listar Veículos (requer token)
+GET https://localhost:5001/api/veiculos
+Authorization: Bearer {seu_token_aqui}
+
+###
+
+### Obter Veículo por ID (requer token)
+GET https://localhost:5001/api/veiculos/1
+Authorization: Bearer {seu_token_aqui}
+
+###
+
+### Atualizar Veículo (requer token)
+PUT https://localhost:5001/api/veiculos/1
+Content-Type: application/json
+Authorization: Bearer {seu_token_aqui}
+
+{
+  "id": 1,
+  "descricao": "Carro sedan completo atualizado",
+  "marca": 1,
+  "modelo": "Uno Mile",
+  "opcionais": "Ar condicionado, direção elétrica, vidros elétricos",
+  "valor": 48000.00
+}
+
+###
+
+### Excluir Veículo (requer token)
+DELETE https://localhost:5001/api/veiculos/1
+Authorization: Bearer {seu_token_aqui}
