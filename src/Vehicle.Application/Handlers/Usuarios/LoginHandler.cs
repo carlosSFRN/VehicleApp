@@ -22,6 +22,6 @@ public class LoginHandler : IRequestHandler<LoginCommand, string?>
         if (usuario == null || !_authService.VerifyPassword(request.Senha, usuario.Senha))
             return null;
 
-        return _authService.GenerateToken(usuario.Id, usuario.Login);
+        return _authService.GenerateToken(usuario.Id, usuario.Login, usuario.Role);
     }
 }

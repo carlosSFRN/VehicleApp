@@ -7,7 +7,7 @@ API REST para gerenciamento de veículos com autenticação JWT, desenvolvida em
 - .NET 8
 - ASP.NET Core Web API
 - Entity Framework Core (InMemory)
-- JWT Authentication
+- JWT Authentication com Roles (Admin/User)
 - MediatR (CQRS)
 - FluentValidation
 - BCrypt.Net
@@ -57,6 +57,7 @@ Na pasta `postman/` há uma collection pronta para importar no Postman. A collec
 Um usuário administrador é criado automaticamente:
 - **Login:** `admin`
 - **Senha:** `123456`
+- **Role:** `Admin`
 
 ## 📚 Endpoints
 
@@ -84,7 +85,9 @@ Content-Type: application/json
 
 > 🔒 Todos os endpoints de veículos requerem autenticação via Bearer Token
 
-#### Criar Veículo
+> 👤 Endpoints de criação, atualização e exclusão requerem Role **Admin**
+
+#### Criar Veículo (Admin)
 ```http
 POST /api/vehicles
 Authorization: Bearer {token}
@@ -111,7 +114,7 @@ GET /api/vehicles/{id}
 Authorization: Bearer {token}
 ```
 
-#### Atualizar Veículo
+#### Atualizar Veículo (Admin)
 ```http
 PUT /api/vehicles/{id}
 Authorization: Bearer {token}
@@ -126,7 +129,7 @@ Content-Type: application/json
 }
 ```
 
-#### Deletar Veículo
+#### Deletar Veículo (Admin)
 ```http
 DELETE /api/vehicles/{id}
 Authorization: Bearer {token}
@@ -141,16 +144,29 @@ Authorization: Bearer {token}
 | 204 | Requisição bem-sucedida sem conteúdo |
 | 400 | Erro de validação nos dados enviados |
 | 401 | Não autenticado ou token inválido |
+| 403 | Acesso negado (sem permissão) |
 | 404 | Recurso não encontrado |
 | 500 | Erro interno do servidor |
 
-## 🔐 Autenticação
+## 🔐 Autenticação e Autorização
 
-A API utiliza JWT (JSON Web Token) para autenticação. Após o login, inclua o token no header de todas as requisições:
+A API utiliza JWT (JSON Web Token) para autenticação com suporte a Roles. Após o login, inclua o token no header de todas as requisições:
 
 ```
 Authorization: Bearer {seu-token-aqui}
 ```
+
+### Roles e Permissões
+
+| Role | Permissões |
+|------|------------|
+| **Admin** | Criar, atualizar, deletar e visualizar veículos |
+| **User** | Apenas visualizar veículos (GET) |
+
+O token JWT contém as seguintes claims:
+- `NameIdentifier`: ID do usuário
+- `Name`: Login do usuário
+- `Role`: Papel do usuário (Admin ou User)
 
 ## 🛠️ Padrões Utilizados
 
@@ -164,5 +180,6 @@ Authorization: Bearer {seu-token-aqui}
 
 - O banco de dados é InMemory, os dados são perdidos ao reiniciar a aplicação
 - Senhas são criptografadas com BCrypt
-- Token JWT expira em 24 horas
+- Token JWT expira em 8 horas
 - Paginação padrão: 10 itens por página
+- Novos usuários criados recebem Role "User" por padrão

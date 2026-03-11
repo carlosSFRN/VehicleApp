@@ -16,6 +16,7 @@ public class VeiculosController : ControllerBase
     public VeiculosController(IMediator mediator) => _mediator = mediator;
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Adicionar([FromBody] AdicionarVeiculoCommand command)
     {
         var id = await _mediator.Send(command);
@@ -23,6 +24,7 @@ public class VeiculosController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] AtualizarVeiculoCommand command)
     {
         if (id != command.Id) return BadRequest();
@@ -50,6 +52,7 @@ public class VeiculosController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Excluir(int id)
     {
         var sucesso = await _mediator.Send(new ExcluirVeiculoCommand(id));

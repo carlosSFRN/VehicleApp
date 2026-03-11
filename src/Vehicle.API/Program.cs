@@ -87,7 +87,8 @@ using (var scope = app.Services.CreateScope())
         {
             Nome = "Admin",
             Login = "admin",
-            Senha = authService.HashPassword("123456")
+            Senha = authService.HashPassword("123456"),
+            Role = "Admin"
         });
         context.SaveChanges();
     }

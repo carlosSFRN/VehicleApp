@@ -12,7 +12,7 @@ public class AuthService : IAuthService
 
     public AuthService(IConfiguration configuration) => _configuration = configuration;
 
-    public string GenerateToken(int userId, string login)
+    public string GenerateToken(int userId, string login, string role)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -20,7 +20,8 @@ public class AuthService : IAuthService
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Name, login)
+            new Claim(ClaimTypes.Name, login),
+            new Claim(ClaimTypes.Role, role)
         };
 
         var token = new JwtSecurityToken(
